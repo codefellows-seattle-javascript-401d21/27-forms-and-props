@@ -1,4 +1,4 @@
-// import './styles/main.scss'
+import './style/main.scss'
 
 import React from 'react'
 import ReactDom from 'react-dom'
@@ -28,9 +28,10 @@ class SearchForm extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <form
-        className="search-form"
+        className={this.props.search_error ? "form-error search-form" : "search-form"}
         onSubmit={this.handleSubmit}>
 
         <input
@@ -110,7 +111,10 @@ class App extends React.Component {
   updateState(state) {
     this.searchApi(state)
     .then(res => this.setState({topics: res.body.data.children.map(i => [i.data.url, i.data.title, i.data.ups]), searchError: null}))
-    .catch(err => this.setState({topics: [], searchError: err}))
+    .catch(err => {
+      this.setState({topics: [], searchError: err})
+
+    })
   }
 
   searchApi(state) {
@@ -121,7 +125,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="application">
-        <SearchForm update_state={this.updateState}/>
+        <SearchForm update_state={this.updateState} search_error={this.state.searchError}/>
         <SearchResultList topics={this.state.topics} limit= {this.state.limit} error={this.state.searchError}/>
       </div>
     )
