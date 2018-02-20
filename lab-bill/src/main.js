@@ -18,12 +18,13 @@ class SearchForm extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({val: e.target.value})
+    if (e.target.name === 'search-topic') this.setState({val: e.target.value})
+    if (e.target.name === 'search-number') this.setState({number: e.target.value})
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.update_state(this.state.val)
+    this.props.update_state(this.state)
   }
 
   render() {
@@ -37,7 +38,7 @@ class SearchForm extends React.Component {
           name="search-topic"
           value={this.state.val}
           onChange={this.handleChange}
-          placeholder="Bulbasaur"/>
+          placeholder="example"/>
         
         <input
           type="text"
@@ -54,37 +55,40 @@ class SearchForm extends React.Component {
 }
 
 
-// class SearchResultList extends React.Component {
-//   constructor(props) {
-//     super(props)
-//   }
+class SearchResultList extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-//   render() {
-//     return (
-//       <div className="results">
-//         {this.props.pokemon ?
-//           <section className="pokemon-data">
-//             {console.log(this.props.pokemon)}
-//             <h2>{this.props.pokemon.name}</h2>
-//             <img
-//               src={this.props.pokemon.sprites.front_default}
-//               alt={this.props.pokemon.name}/>
-//           </section>
-//           :
-//           undefined
-//         }
+  render() {
+    console.log('this.props',this.props);
+    return (
+      <div className="results">
+        {this.props.topics ?
+          <section className="topics-data">
+            <ul>
+              {this.props.topics.map((info, i) => {
+                return <li key={i}>Title: {info[1]} Url: {info[0]} UpVotes: {info[2]} </li>
+              })}
+            </ul>
 
-//         {this.props.error ?
-//           <section className="pokemon-error">
-//             <h2>You broke it.</h2>
-//           </section>
-//           :
-//           undefined
-//         }
-//       </div>
-//     )
-//   }
-// }
+
+          </section>
+          :
+          undefined
+        }
+
+        {this.props.error ?
+          <section className="search-error">
+            <h2>You broke it.</h2>
+          </section>
+          :
+          undefined
+        }
+      </div>
+    )
+  }
+}
 
 
 
@@ -93,28 +97,30 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      topics: [],
+      topics: '',
+      limit: 0,
       searchError: null,
     }
     this.searchApi = this.searchApi.bind(this)
     this.updateState = this.updateState.bind(this)
   }
 
-  updateState(name) {
-    this.searchApi(name)
-    .then(res => this.setState({topics: res.body, searchError: null}))
+  updateState(state) {
+    this.searchApi(state)
+    .then(res => this.setState({topics: res.body.data.children.map(i => [i.data.url, i.data.title, i.data.ups]), searchError: null}))
     .catch(err => this.setState({topics: [], searchError: err}))
   }
 
-  searchApi(name) {
-    return superagent.get(`${API_URL}/${searchFormBoard}.json?limit=${searchFormLimit}`)
+  searchApi(state) {
+    console.log('this.state',state)
+    return superagent.get(`${API_URL}/${state.val}.json?limit=${state.number}`)
   }
 
   render() {
     return (
       <div className="application">
         <SearchForm update_state={this.updateState}/>
-        <SearchResultList topics={this.state.topics} error={this.state.searchError}/>
+        <SearchResultList topics={this.state.topics} limit= {this.state.limit} error={this.state.searchError}/>
       </div>
     )
   }
