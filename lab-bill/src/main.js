@@ -71,7 +71,7 @@ class SearchResultList extends React.Component {
           <section className="topics-data">
             <ul>
               {this.props.topics.map((info, i) => {
-                return <li key={i}>Title: {info[1]} Url: {info[0]} UpVotes: {info[2]} </li>
+                return <li key={i}><a href={info[0]}><h2>{info[1]}</h2><p>{info[2]}</p></a></li>
               })}
             </ul>
 
