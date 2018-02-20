@@ -1,0 +1,17 @@
+{
+  "esversion": 6,
+  "eqeqeq": true,
+  "latedef": true,
+  "quotmark": true,
+  "unused": true,
+  "varstmt": true,
+  "globals": {
+    "Promise": true,
+    "describe": false,
+    "it": false,
+    "expect": false,
+    "beforeAll": false,
+    "afterAll": false,
+    "beforeEach": false
+  }
+}
