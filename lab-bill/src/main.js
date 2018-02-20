@@ -41,12 +41,14 @@ class SearchForm extends React.Component {
           placeholder="example"/>
         
         <input
-          type="text"
+          type="number"
           name="search-number"
           value={this.state.number}
           onChange={this.handleChange}
-          placeholder="10"/>
-
+          placeholder="10"
+          min="0"
+          max="100"/>
+          
         <button type="submit">Search</button>
 
       </form>
