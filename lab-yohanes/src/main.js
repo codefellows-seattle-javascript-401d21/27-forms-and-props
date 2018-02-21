@@ -1,35 +1,112 @@
 //JSX!!!!
-import './styles/main.scss'
+//import './styles/main.scss'
+
 //const React = require('react') new method below
 import React from 'react'
 import ReactDom from 'react-dom'
-import { say } from 'cowsay'
-import faker from 'faker'
+import superagent from 'superagent'
+
+//const API_URL = 'https://www.reddit.com/r/etc'
+const API_URL = 'https://pokeapi.co/api/v2'
+
+class SearchForm extends React.Component {
+  constructor(props) {
+  super(props)
+  this.state = {
+    val: '',
+  }
+  this.handleChange = this.handleChange.bind(this)
+  this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange(e) {
+    this.setState({val: e.target.value})
+  }
+
+  handleSubmit(e) {
+    e.preventDefault() //invoke
+    this.props.update_state(this.state.val)
+  }
+
+  render() {
+    return(
+      <form
+        className="search-form"
+        onSubmit={this.handleSubmit}>
+
+        <input
+          type="text"
+          name="pokemnon-name"
+          value={this.state.val}
+          onChange={this.handleChange}
+          placeholder="Charzard"/>
+
+          <button type="submit">Search</button>
+          </form>
+    )
+  }
+}
+
+class Results extends React.Component {
+  constructor(props) {
+  super(props)
+}
+
+render() {
+  return (
+    <div className="results">
+      {this.props.pokemon ?
+        <section className="pokemon-data">
+          {console.log(this.props.pokemon)}
+          <h2>{this.props.pokemon.name}</h2>
+          <img
+            src={this.props.pokemon.sprites.front_default}
+            alt={this.props.pokemon.name} />
+        </section>
+        :
+        undefined
+      }
+
+      {this.props.error ?
+        <section className="pokemon-error">
+          <h2>You broke it.</h2>
+        </section>
+        :
+        undefined
+      }
+    </div>
+  )
+}
+}
+
 
 class App extends React.Component { //standard scaffold for any app. makes it reusable throughout the app through the use of Apps
   constructor(props) {
     super(props)
     this.state = {
-      content: '',
-      //count: 0,
-    }
-    this.handleClick = this.handleClick.bind(this) //rendering to the next function
+    pokemon: null,
+    searchError: null,
     }
 
-  handleClick() { //take set state and overide it with this new counterr amd return as new state. This generates the click
-    this.setState(() => ({ content: say({text: faker.random.words(7)})})) //renders the say above and makes cowsay
-    //this.setState({current, content: cosway.say({text, f: current})}) this is how you would re-write the code above when not knowing what the text content would be. COMMON COMPONENT HERE
+    this.searchApi = this.searchApi.bind(this)
+    this.updateState = this.updateState.bind(this)
+  }
+
+  updateState(name) {
+    this.searchApi(name)
+    .then(res => this.setState({pokemon: res.body, searchError: null}))
+    .catch(err => this.setState({pokemon: null, searchError: err}))
+  }
+
+  searchApi(name) {
+    return superagent.get(`${API_URL}/pokemon/${name}`)
   }
 
   render() {
-    return(
-      <div className="app">
-        <body background="https://images.unsplash.com/photo-1413813447360-290ffe8d33d0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cc0a8e291ba8818a609cb1bbb3c73e5a&w=1000&q=80">
-        <h1>Generate Cowsay Lorem</h1>
-        <button onClick={this.handleClick}>Cow Speak: {this.state.count}</button>
-        {console.log('all/any javascript needs to be written in curly brackets')}
-        <pre>{`${this.state.content}`}</pre>
-        </body>
+    return (
+      <div className="application">
+      <SearchForm update_state={this.updateState}/> 
+      <Results pokemon={this.state.pokemon} error={this.state.searchError}/>
       </div>
     )
   }

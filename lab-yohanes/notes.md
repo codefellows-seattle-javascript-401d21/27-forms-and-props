@@ -1,3 +1,8 @@
+#Lab-27 February 20, 2018
+
+We are going to set up a form interacting with Reddit API
+
+#Lab-26 February 19, 2018
 #React
 In react we write html in javascript
 
@@ -48,3 +53,4 @@ webpack-dev-server
 NPM i -D consensus runs the liver server/nodemon where it reacts to any edits in our code, hence the D ion developer launch
 
 add build to our .gitignore
+

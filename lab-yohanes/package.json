@@ -1,20 +1,21 @@
 {
-  "name": "00-front-end-build",
+  "name": "01-forms-props",
   "version": "1.0.0",
-  "description": "REACT JSX Intro",
+  "description": "",
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack-dev-server --inline --hot"
   },
   "keywords": [],
-  "author": "Yohan the DEV Don",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "cowsay-browser": "^1.1.8",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
@@ -22,11 +23,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "sass-loader": "^6.0.6",
+    "superagent": "^3.8.2",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
-  },
-  "dependencies": {
-    "cowsay": "^1.2.1",
-    "faker": "^4.1.0"
   }
 }
