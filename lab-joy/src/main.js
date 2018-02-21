@@ -50,13 +50,14 @@ class Results extends React.Component {
   render() {
     return (
       <div className="results">
+        {document.querySelectorAll('input').forEach(el => el.classList.remove('error'))}
         {this.props.search ?
           <section className="search-data">
             <ul>{this.props.search.data.children.map((el, i) => {
               return (
-                <li>
+                <li key={i}>
                   <a href={el.data.url}>
-                    <h2 key={i}>{el.data.title}</h2>
+                    <h2>{el.data.title}</h2>
                     <p>[ Ups: {el.data.ups} ]</p>
                   </a>
                 </li>
@@ -70,6 +71,7 @@ class Results extends React.Component {
         {this.props.error ?
           <section className="search-error">
             <h2>You broke it.</h2>
+            {document.querySelectorAll('input').forEach(el => el.classList.add('error'))}
           </section>
           :
           undefined
@@ -100,7 +102,7 @@ class App extends React.Component {
   }
 
   searchApi(search, limit) {
-    return superagent.get(`${API_URL}/${search}.json?limit=${limit - 1}`)
+    return superagent.get(`${API_URL}/${board}/${search}.json?limit=${limit - 1}`)
       .then(res => {
         return res;
       });
