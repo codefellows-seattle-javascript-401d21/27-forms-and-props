@@ -1,0 +1,59 @@
+$mainborder: 15px, solid, black;
+$border-radius: 5px;
+$primary: grey;
+$secondary: white;
+
+body {
+  width: 100%;
+  background: black;
+}
+.application{
+  form {
+    width: 500px;
+    margin: 0 auto;
+    input {
+      margin: 15px;
+    }
+    #text {
+      width: 300px;
+      height: 25px;
+    }
+    #number {
+      width: 30px;
+      height: 25px;
+    }
+  }
+  .error {
+    background: red;
+  }
+  section {
+    background: $primary;
+    height: 150px;
+    text-align: center;
+    padding: 15px;
+    color: $secondary;
+    font-size: 35px;
+  }
+  ul {
+    width: 100%;
+    list-style: none;
+    li {
+      text-align: center;
+      padding: 15px;
+      background: $primary;
+      border: $mainborder;
+      border-radius: $border-radius;
+      color: $secondary;
+      font-size: 14px;
+      font-weight: lighter;
+      word-wrap: break-word;
+      width: 80%;
+      height: 100px;
+      margin: 5px auto;
+      a {
+        text-decoration: none;
+        text-decoration-style: none;
+      }
+    }
+  }
+}
