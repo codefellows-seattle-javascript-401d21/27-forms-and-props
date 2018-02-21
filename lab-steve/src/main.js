@@ -17,29 +17,57 @@ class App extends React.Component {
     this.updateState = this.updateState.bind(this);
   }
 
+  processResults(responseData) {
+    // sgc - Map the children results and filter out stickied posts
+    return responseData.body.data.children
+      .filter(e => e.data.stickied === false)
+      .map(e => {
+        return {
+          title: e.data.title,
+          url: e.data.url,
+          downvotes: e.data.downs,
+          upvotes: e.data.ups,
+          thumbnail: e.data.thumbnail ? e.data.thumbnail : null,
+          thumbnail_height: e.data.thumbnail ? e.data.thumbnail_height : null,
+          thumbnail_width: e.data.thumbnail ? e.data.thumbnail_width : null
+        };
+      })
+      .map((e, i) => {
+        return (
+          <li key={i}>
+            <a href={e.url}>
+              <h2>{e.title}</h2>
+            </a>
+
+            {e.thumbnail ? (
+              <img
+                src={e.thumbnail}
+                height={e.thumbnail_height}
+                width={e.thumbnail_width}
+              />
+            ) : (
+              undefined
+            )}
+
+            <p>
+              Upvotes: {e.upvotes} Downvotes: {e.downvotes}
+            </p>
+          </li>
+        );
+      });
+  }
+
   updateState(searchStr, limit) {
     this.searchApi(searchStr, limit)
       .then(res => {
         console.log(res);
         return res;
       })
-      .then(res => {
+      .then(this.processResults)
+      .then(topics => {
         this.setState({
-          // sgc - Map the children results and filter out stickied posts
-          topics: res.body.data.children
-            .filter(e => e.data.stickied === false)
-            .map(e => {
-              return {
-                title: e.data.title,
-                url: e.data.url,
-                downvotes: e.data.downs,
-                upvotes: e.data.ups,
-                thumbnail: e.data.thumbnail ? e.data.thumbnail : null,
-                thumbnail_height: e.data.thumbnail ? e.data.thumbnail_height : null,
-                thumbnail_width: e.data.thumbnail ? e.data.thumbnail_width : null,
-              };
-            }),
-          searchError: null,
+          topics: topics,
+          searchError: null
         });
       })
       .catch(err => this.setState({ topics: null, searchError: err }));
@@ -73,7 +101,7 @@ class SearchForm extends React.Component {
     super(props);
     this.state = {
       searchStr: '',
-      limit: 0,
+      limit: 0
     };
     // sgc - Bindings
     this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -134,26 +162,20 @@ class SearchResultList extends React.Component {
 
   render() {
     return (
-      <div className="results">
-        {this.props.topics
-          ?
-          <section className="search-results">
-            {console.log(this.props.topics)}
-            Results
-          </section>
-          :
+      <div className="results-div">
+        {this.props.topics ? (
+          <ul className="search-list">{this.props.topics}</ul>
+        ) : (
           undefined
-        }
+        )}
 
-        {this.props.error
-          ?
+        {this.props.error ? (
           <section className="search-error">
-            {console.log('Error')}
-            Error
+            <h2>Error with search. Try again.</h2>
           </section>
-          :
+        ) : (
           undefined
-        }
+        )}
       </div>
     );
   }
