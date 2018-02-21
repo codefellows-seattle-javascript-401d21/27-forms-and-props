@@ -1,0 +1,62 @@
+
+$primarycolor: #cee3f8;
+
+body {
+  width: 98%;
+
+  .application {
+    #page-title {
+      text-align: center;
+    }
+
+    h1, h2 {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    margin: auto;
+    form {
+      text-align: center;
+
+      input {
+        margin: 8px 3px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: none;
+        background-color: #959292;
+        color: white;
+      }
+
+      button {
+        background-color: $primarycolor;
+        border: none;
+        color: white;
+        padding: 10px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
+    }
+
+    .search-error {
+      margin: auto;
+      width: 90%;
+      border-radius: 5px;
+      border: 2px solid red;
+      text-align: center;
+    }
+
+    ul {
+      list-style-type: none;
+
+      li {
+        padding-left: 70px;
+        padding-right: 70px;
+        margin: 3px;
+        border: 2px solid $primarycolor;
+        width: 90%;
+        border-radius: 5px;
+      }
+    }
+  }
+}
