@@ -13,7 +13,7 @@ class SearchForm extends React.Component {
       val: '',
       number: 0,
     };
-
+    console.log(this.props)
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -26,20 +26,18 @@ class SearchForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // console.log(this.props.get_set_app)
+    
     this.props.update_state(this.state.val, this.state.number);
   }
 
   render() {
-    var disabled = this.props.error;
-    var required = this.props.reddit;
-    
+      
     return (
       
       <form
-      className="search-form"
+      className={this.props.visible? "search-form error" : "search-form"}
       onSubmit={this.handleSubmit}
-      disabled={disabled} required={required}
+      
       >
       
         <h1>What do you want to search Reddit for?</h1>
@@ -53,7 +51,7 @@ class SearchForm extends React.Component {
 
           <input
           id="limit"
-          type="text"
+          type="number"
           name="number"
           value={this.state.number}
           onChange={this.handleChange}
@@ -144,7 +142,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="application">
-        <SearchForm update_state={this.updateState}/>
+        <SearchForm update_state={this.updateState} visible={this.state.searchError}/>
         <SearchResultsList reddit={this.state.reddit} error={this.state.searchError}/>
       </div>
     )
