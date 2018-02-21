@@ -2,6 +2,18 @@
 
 We are going to set up a form interacting with Reddit API
 
+#line 63 src={this.props.pokemon.sprites.front_default}
+this is what we will have to change  based on the provided data through the API (pkemon image, type, powers, etc.) to get the designated results from the forms array in the browser console,for our reddit api.
+
+We would use superagent requests to grab additional data from the api rather than just the image
+
+More vaguely the render() return ({this.props.pokemon}) and all the curly brackets that go with it is what renders to the DOM
+
+#Lab
+We will replace line {this.props.pokemon ? // ...
+this.props.results.map and return attributes/
+for each result, do a thing
+
 #Lab-26 February 19, 2018
 #React
 In react we write html in javascript
