@@ -26,12 +26,7 @@ class SearchForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    {console.log(this.state.topic)}
-    {console.log(this.state.limit)}
     this.props.update_state(this.state.topic, this.state.limit)
-    //this.props.update_state(this.state.limit)
-    {console.log('BBBSBSBSBSBSB')}
-    {console.log(this.props)}
   }
 
   render() {
@@ -75,12 +70,10 @@ class Results extends React.Component {
       <div className="results">
         {this.props.topic ?
           <section className="topic-data">
-            {console.log('XXXXXX PROPS XXXXXX')}
-            {console.log(this.props)}
-            <h2>AUTHOR</h2>
-            <h2>{this.props.topic.data.children[1].data.author}</h2>
-            <h2>TEXT</h2>
-            <h2>{this.props.topic.data.children[1].data.selftext}</h2>
+            <h2>TITLE</h2>
+            <ul>
+            {(this.props.topic.data.children.map(ele => <li><a href={ele.data.url}>{ele.data.title}</a><p></p>{ele.data.ups}</li>))}
+            </ul>
           </section>
           :
           undefined
@@ -111,16 +104,12 @@ class App extends React.Component {
   }
 
   updateState(name, limit) {
-    {console.log('CCCCCCCCCC')}
-    {console.log(limit)}
     this.searchApi(name, limit)
     .then(res => this.setState({topic: res.body, searchError: null}))
     .catch(err => this.setState({topic: null, searchError: err}))
   }
 
   searchApi(name, limit) {
-    {console.log('7777777777')}
-    {console.log(limit)}
     return superagent.get(`${API_URL}/${name}.json?limit=${limit}`)
   }
 
