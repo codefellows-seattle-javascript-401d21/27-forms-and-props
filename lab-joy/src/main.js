@@ -10,7 +10,7 @@ class SearchForm extends React.Component {
     super(props);
     this.state = {
       search: '',
-      limit: 1,
+      limit: 10,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleLimitChange = this.handleLimitChange.bind(this);
@@ -33,8 +33,9 @@ class SearchForm extends React.Component {
   render() {
     return (
       <form className="search-form" onSubmit={this.handleSubmit}>
-        <input type="text" name="reddit-name" value={this.state.search} onChange={this.handleChange} placeholder="Search" />
-        <input type="number" name="limit" min="1" max="100" value={this.state.limit} onChange={this.handleLimitChange} placeholder="1" />
+        <h1>Search Reddit</h1>
+        <input type="text" name="search" value={this.state.search} onChange={this.handleChange} placeholder="Search" />
+        <input type="number" name="limit" min="1" max="99" value={this.state.limit} onChange={this.handleLimitChange} placeholder="#" />
         <button type="submit">Search</button>
       </form>
     );
@@ -49,18 +50,25 @@ class Results extends React.Component {
   render() {
     return (
       <div className="results">
-        {this.props.reddit ?
-          <section className="reddit-data">
-            {console.log('hello: ', this.props.reddit)}
-            <h2>{this.props.reddit.data.children.map((el, i) => <h2 key={i}>{el.data.title}</h2>)}</h2>
+        {this.props.search ?
+          <section className="search-data">
+            <ul>{this.props.search.data.children.map((el, i) => {
+              return (
+                <li>
+                  <a href={el.data.url}>
+                    <h2 key={i}>{el.data.title}</h2>
+                    <p>[ Ups: {el.data.ups} ]</p>
+                  </a>
+                </li>
+              );
+            })}</ul>
           </section>
           :
           undefined
         }
 
         {this.props.error ?
-          <section className="reddit-error">
-            {console.log('error: ', this.props.error)};
+          <section className="search-error">
             <h2>You broke it.</h2>
           </section>
           :
@@ -75,7 +83,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reddit: null,
+      search: null,
       limit: null,
       searchError: null,
     };
@@ -83,21 +91,26 @@ class App extends React.Component {
     this.updateState = this.updateState.bind(this);
   }
 
-  updateState(name, limit) {
-    this.searchApi(name, limit)
-      .then(res => this.setState({ reddit: res.body, searchError: null }))
-      .catch(err => this.setState({ reddit: null, searchError: err }));
+  updateState(search, limit) {
+    this.searchApi(search, limit)
+      .then(res => {
+        return this.setState({ search: res.body, searchError: null });
+      })
+      .catch(err => this.setState({ search: null, searchError: err }));
   }
 
-  searchApi(name, limit) {
-    return superagent.get(`${API_URL}/${name}.json?limit=${limit}`);
+  searchApi(search, limit) {
+    return superagent.get(`${API_URL}/${search}.json?limit=${limit - 1}`)
+      .then(res => {
+        return res;
+      });
   }
 
   render() {
     return (
       <div className="application">
-        <SearchForm update_state={this.updateState} />
-        <Results reddit={this.state.search} error={this.state.searchError} />
+        <SearchForm update_state={this.updateState} error={this.state.searchError} />
+        <Results search={this.state.search} error={this.state.searchError} />
       </div>
     );
   }

@@ -14,27 +14,46 @@ body {
   background: #ffeff0;
   color: #000;
   font-family: Raleway, sans-serif;
-  line-height: 1.3em;
+  line-height: 1.7em;
   letter-spacing: 0.07em;
   height: 100%;
-  text-align: center;
-  margin-top: 2em;
+  width: 600px;
+  margin: auto;
+  padding-top: 2em;
 }
 
 a {
-  color: #888;
+  color: #333;
   text-decoration: none;
   cursor: hand;
   font-weight: 900;
 }
 
-h2 {
+a:hover {
+  color: #666;
+}
+
+h1 {
+  margin-bottom: 0.5em;
   text-align: center;
-  font-family: Raleway, sans-serif;
-  font-size: 1.2em;
+}
+
+h2 {
+  font-size: 0.9em;
   font-weight: 900;
   letter-spacing: 0.02em;
-  margin-bottom: 1em;
+  margin-top: 0.7em;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  text-align: left;
+}
+
+p {
+  font-size: 0.9em;
+  text-align: center;
 }
 
 button, input {
