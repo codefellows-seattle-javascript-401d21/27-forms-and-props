@@ -1,5 +1,6 @@
 'use strict';
 
+import './styles/reset.scss';
 import './styles/main.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,32 +18,37 @@ class App extends React.Component{
     }
     this.getAppState = this.getAppState.bind(this);
     this.setAppState = this.setAppState.bind(this);
+    this.search = this.search.bind(this);
   }
 
-  getAppState(name){
-    return getState(name);
+  getAppState(){
+    return this.state;
   }
 
   setAppState(formState){
-    search(formState)
+    this.search(formState)
     .then(res => this.setState({topics: res.body, search_error: null}))
-    .catch(err => this.setState({topics: res.body, search_error: null}));
+    .catch(err => this.setState({topics: null, search_error: err}));
   }
 
-  search(state){
-    return superagent.get(`${redditApi}/${state.search_topic}.json?limit=${state.search_limit}`)
+  search(stateData){
+    let topic = stateData.search_topic.trim().replace(/\s/g, '+');
+    return superagent.get(`${redditApi}/${topic}.json?limit=${(stateData.search_limit)}`)
   }
 
     render() {
       return (
+        <div>
+        <Header />
         <main>
-          <h1>Reddit Geddit</h1>
-          <section>
-          <SearchForm set_app_state={this.setAppState}/>
+          <section className="search">
+            <SearchForm set_app_state={this.setAppState}/>
           </section>
-          <section>
+          <section className="results">
+            <SearchResults get_app_state={this.getAppState}/>
           </section>
         </main>
+        </div>
       );
     }
   }
@@ -69,7 +75,7 @@ class App extends React.Component{
 
     render(){
       return(
-        <form id="SearchForm" onSubmit={this.submitHandler}>
+        <form className="search-form" onSubmit={this.submitHandler}>
           <input type="text" 
             name="search_topic" 
             value={this.state.search_topic}
@@ -87,5 +93,52 @@ class App extends React.Component{
     }
   }
 
+  class SearchResults extends React.Component{
+    constructor(props){
+      super(props);
+      this.displayResults = this.displayResults.bind(this); 
+    }
+
+    displayResults(){
+      let {topics, search_error} = this.props.get_app_state();
+      if (search_error) console.log('status:', search_error.status);
+      if (search_error) if (search_error.status !== 403) return `Error: ${search_error.message}`;
+      if (!topics) return 'No Results';
+      console.log(topics.data.children)
+      return(
+        <ul className="results-list">
+        {topics.data.children.map((topic, i ) => 
+        <li key={i} className="results-item">
+        <a href={topic.data.url}>
+          <h2 className='results-item-title' >{topic.data.title}</h2>
+          <p className='results-item-ups'>{topic.data.ups}</p>
+        </a>
+      </li>
+      )}
+      </ul>
+      );
+    }
+
+    render(){
+      return(
+       this.displayResults()
+      );
+    }
+  }
+
+  class Header extends React.Component{
+    constructor(props){
+      super(props)
+    }
+    render(){
+      return (
+        <header>         
+          <h1>Reddit Geddit</h1>
+        </header>
+      );
+    }
+  }
+
+  
   ReactDOM.render(<App />, root);
 
