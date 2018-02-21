@@ -1,5 +1,5 @@
 
-# LAB 26: Cowsay
+# LAB 27: Reddit Search Engine
 
 
 ### Installing and How to use.
@@ -29,9 +29,12 @@ node run watch
 ```
 once you have done that. you can go to your localhost:8080 and see your project in the browser.
 
-## YOU NEED TO SELECT SOMETHING FIRST.
+## How to use
 
-### some helpful tips
+you have 2 input boxes that will take in a string in the first box and an number in the 2nd box. this will let you search for an item in box 1 and limit the results in box 2.
 
-first you need to pick a animal with the drop down menu. once you have done that, click on the button and it will then run the cowsay function to show you what it says.
+you will get a list of links with amount of thumbs up also.
+
+if you fail to enter the correct info, the boxes will turn read and be greated with a lovly saying.
+
 
