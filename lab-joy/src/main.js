@@ -3,14 +3,14 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import superagent from 'superagent';
 
-const API_URL = 'https://www.reddit.com/r/etc';
+const API_URL = 'https://www.reddit.com/r';
 
 class SearchForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             val: '',
-            limit: 10,
+            limit: 1,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleLimitChange = this.handleLimitChange.bind(this);
@@ -34,7 +34,7 @@ class SearchForm extends React.Component {
         return (
             <form className="search-form" onSubmit={this.handleSubmit}>
                 <input type="text" name="reddit-name" value={this.state.val} onChange={this.handleChange} placeholder="Search" />
-                <input type="number" name="limit" min="1" max="100" value={this.state.limit} onChange={this.handleLimitChange} placeholder="10" />
+                <input type="number" name="limit" min="1" max="100" value={this.state.limit} onChange={this.handleLimitChange} placeholder="1" />
                 <button type="submit">Search</button>
             </form>
         );
@@ -51,19 +51,21 @@ class Results extends React.Component {
             <div className="results">
                 {this.props.reddit ?
                     <section className="reddit-data">
-                        {console.log(this.props.reddit)}
-                        <h2>{this.props.reddit.data.children}</h2>
+                        {console.log('hello: ', this.props.reddit)}
+                        <h2>{this.props.reddit.data.children.map((el, i) => {el.data.title})}</h2>
                     </section>
                     :
-                    undefined}
+                    undefined
+                }
 
                 {this.props.error ?
                     <section className="reddit-error">
-                        {console.log(this.props.error)};
+                        {console.log('error: ', this.props.error)};
                         <h2>You broke it.</h2>
                     </section>
                     :
-                    undefined}
+                    undefined
+                }
             </div>
         );
     }
@@ -74,30 +76,31 @@ class App extends React.Component {
         super(props);
         this.state = {
             reddit: null,
+            limit: null,
             searchError: null,
         };
         this.searchApi = this.searchApi.bind(this);
         this.updateState = this.updateState.bind(this);
     }
 
-    updateState(val, limit) {
-        this.searchApi(val, limit)
+    updateState(name, limit) {
+        this.searchApi(name, limit)
             .then(res => this.setState({ reddit: res.body, searchError: null }))
             .catch(err => this.setState({ reddit: null, searchError: err }));
     }
 
-    searchApi(val, limit) {
-        return superagent.get(`${API_URL}/${val}.json?limit=${limit}`);
+    searchApi(name, limit) {
+        return superagent.get(`${API_URL}/${name}.json?limit=${limit}`);
     }
 
     render() {
         return (
             <div className="application">
                 <SearchForm update_state={this.updateState} />
-                <Results reddit={this.state.reddit} error={this.state.searchError} />
+                <Results reddit={this.state.val} error={this.state.searchError} />
             </div>
         );
     }
 }
 
-ReactDom.render(<App />, document.getElementById('root'))
+ReactDom.render(<App />, document.getElementById('root'));
