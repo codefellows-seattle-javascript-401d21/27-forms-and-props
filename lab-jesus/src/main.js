@@ -83,7 +83,7 @@ class Results extends React.Component {
                   width="64" />
                 <a href={data.url}>{data.title}</a>
                 <a href={data.url}>/Upvotes:{data.score}</a>
-              </li>)}            
+              </li>)}            3
           </section>
           :
           undefined
