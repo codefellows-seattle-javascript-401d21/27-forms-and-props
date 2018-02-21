@@ -1,7 +1,7 @@
 {
   "name": "lab-kevin",
   "version": "1.0.0",
-  "description": "",
+  "description": "27: Reddit Search Engine - create a search form to search Reddit",
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack",
@@ -25,6 +25,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "sass-loader": "^6.0.6",
+    "superagent": "^3.8.2",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
   }
