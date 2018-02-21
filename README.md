@@ -1,4 +1,4 @@
-![cf](http://i.imgur.com/7v5ASc8.png) 27: Reddit Search Engine
+![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) 26: Cowsay
 ===
 
 ## Submission Instructions
@@ -7,62 +7,46 @@
   * Write all of your code in a directory named `lab-` + `<your name>` **e.g.** `lab-duncan`
   * Submit a pull request to this repository
   * Submit a link to your pull request on canvas
-  * Submit a question, observation, and how long you spent on canvas
+  * Submit a question, observation, and how long you spent on canvas  
+  
+## Learning Objectives  
+* Students will be able to configure webpack to compile JS into a bundle
+* Students will be able to configure webpack to compile sass into a bundle
+* Students will be able to configure babel to transpile JSX and ES6 to ES5 javascript
+* Students will be able to create and render react components to the DOM
+* Students will be able to add event listeners to react components 
+* Students will be able to update react component state
 
-## Learning Objectives
-* Students will learn to test react components using jest and enzyme
-* Students will learn to manage controlled inputs
-* Students will learn to pass data from parent to child through props
-
-## Requirements
-#### Configuration
-Your lab directory must include
-* **README.md** -- with documentation about your lab
+## Requirements  
+#### Configuration  
+Your lab directory must include  
+* **README.md** -- with documention about your lab
 * **.gitignore** -- with a robust gitignore
 * **.eslintrc.json** -- with the class .eslintrc.json file
 * **.eslintignore** -- with the class .eslintignore
-* **.babelrc** -- with all dependencies and dev-dependencies
-* **package.json** -- with all dependencies and dev-dependencies
-* **package.lock.json** -- with the npm lockfile
+* **.babelrc** -- with all dependencies and dev-dependencies 
+* **package.json** -- with all dependencies and dev-dependencies 
+* **yarn.lock** -- with the yarn lockfile
 * **webpack.config.js** -- with webpack config
 * **src/** -- containing the frontend code
 * **src/main.js** -- containing the entire app
 * **src/style** -- containing your sass
 * **src/style/main.scss** -- containing the frontend code
+ 
+#### Feature Tasks  
+Create the following component
 
-#### Feature Tasks
-Create the following components and structure them according to the following diagram
-```
-App
-  SearchForm
-  SearchResultList
-```
-###### App Component
-* should contain all of the **application state**
-* should contain methods for modifying the application state
-* the state should have a topics array for holding the results of the search
+###### App
+* Should contain the entire application's view and state
+* Should have a property on the state called content 
+* Should create a view with the following display
+  * A heading with the title "Generate Cowsay Lorem"
+  * A Button that displays "click me"
+    * `onClick` the button should generate new content on the app state using cowsay and faker
+  * A pre tag that displays the App state (content)
 
-###### SearchForm Component
-* should contain a text input for the user to supply a reddit board to look up
-* should contain a number input for the user to limit the number of results to return
-  * the number must be more than 0 and less than 100
-  * `onSubmit` the form should make a request to reddit
-  * it should make a get request to `http://www.reddit.com/r/${searchFormBoard}.json?limit=${searchFormLimit}`
-        - _**NOTE:** the `www` in `www.reddit.com` is very important here! You'll have CORS problems without it._
-  * on success it should pass the results to the application state
-  * on failure it should add a class to the form called error and turn the form's inputs borders red
-
-###### SearchResultList Component
-* Should inherit all search results through props
-* This component does not need to have its own state
-* If there are topics in the application state it should display an unordered list
-* Each list item in the unordered list should contain the following
-  * an anchor tag with a href to the topic.url
-    * inside the anchor a heading tag with the topic.title
-    * inside the anchor a p tag with the number of topic.ups
-
-#### Test
-* no testing today
-
-#### Documentation
+####  Documentation  
 Write a description of the project in your README.md
+
+#### Stretch Goal 
+* add a select menu that enables you to change the type of cowfile currently being used
