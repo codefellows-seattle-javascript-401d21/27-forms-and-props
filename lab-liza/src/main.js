@@ -108,22 +108,28 @@ class App extends React.Component {
     super(props)
     this.state = {
       topics: null,
+      searchError: null,
     }
     this.searchApi = this.searchApi.bind(this)
     this.updateState = this.updateState.bind(this)
   }
 
-  updateState(name) {
-    this.searchApi(name)
+  updateState(subreddit, limit) {
+    this.searchApi(name, limit)
+    .then(res => this.setState({topics: res.body.data.children, searchError: null}))
+    .catch(err => this.setState({topics: null, searchError: err}))
   }
 
+  searchApi(subreddit, limit) {
+    return superagent.get(`https://www.reddit.com/r/${subreddit}.json?limit=${limit}`)
+  }
 
   render() {
     return (
       <div>
         <h2>Lab 27</h2>
-        <SearchForm />
-        <Result topics={this.state.topics}/>
+        <SearchForm update_state={this.updateState}/>
+        <Results topics={this.state.topics} error={this.state.searchError}/>
       </div>
     )
   }
