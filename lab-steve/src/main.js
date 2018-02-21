@@ -59,10 +59,6 @@ class App extends React.Component {
 
   updateState(searchStr, limit) {
     this.searchApi(searchStr, limit)
-      .then(res => {
-        console.log(res);
-        return res;
-      })
       .then(this.processResults)
       .then(topics => {
         this.setState({
@@ -74,9 +70,6 @@ class App extends React.Component {
   }
 
   searchApi(searchStr, limit) {
-    console.log(`searchApi: ${searchStr}, ${limit}`);
-    const url = `${REDDIT_API_PREFIX}/${searchStr}.json?limit=${limit}`;
-    console.log(`url: ${url}`);
     return superagent.get(
       `${REDDIT_API_PREFIX}/${searchStr}.json?limit=${limit}`
     );
@@ -85,7 +78,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="application">
-        <h1>Reddit Searcher</h1>
+        <h1 id="page-title">Reddit Searcher</h1>
         <SearchForm update_state={this.updateState} />
         <SearchResultList
           topics={this.state.topics}
@@ -101,7 +94,7 @@ class SearchForm extends React.Component {
     super(props);
     this.state = {
       searchStr: '',
-      limit: 0
+      limit: '',
     };
     // sgc - Bindings
     this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -162,7 +155,7 @@ class SearchResultList extends React.Component {
 
   render() {
     return (
-      <div className="results-div">
+      <section className="results-section">
         {this.props.topics ? (
           <ul className="search-list">{this.props.topics}</ul>
         ) : (
@@ -176,7 +169,7 @@ class SearchResultList extends React.Component {
         ) : (
           undefined
         )}
-      </div>
+      </section>
     );
   }
 }
