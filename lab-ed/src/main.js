@@ -9,36 +9,58 @@ class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      val: '',
+      topic: '',
+      limit: '',
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChangeTopic = this.handleChangeTopic.bind(this)
+    this.handleChangeLimit = this.handleChangeLimit.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(e) {
-    this.setState({val: e.target.value})
+  handleChangeTopic(e) {
+    this.setState({topic: e.target.value})
+  }
+  handleChangeLimit(e) {
+    this.setState({limit: e.target.value})
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.update_state(this.state.val)
+    {console.log(this.state.topic)}
+    {console.log(this.state.limit)}
+    this.props.update_state(this.state.topic, this.state.limit)
+    //this.props.update_state(this.state.limit)
+    {console.log('BBBSBSBSBSBSB')}
+    {console.log(this.props)}
   }
 
   render() {
     return (
+     <div>
       <form
         className="search-form"
         onSubmit={this.handleSubmit}>
-
+        <h3>Search topic</h3>
         <input
           type="text"
           name="topic"
-          value={this.state.val}
-          onChange={this.handleChange}
+          value={this.state.topic}
+          onChange={this.handleChangeTopic}
           placeholder="topic"/>
-
+        <h3>Search limit</h3>
+        <input
+          type="number"
+          name="limit"
+          step="1"
+          min="1"
+          max="99"
+          value={this.state.limit}
+          onChange={this.handleChangeLimit}
+          placeholder="0"/>
+          <p></p>
         <button type="submit">Search</button>
       </form>
+      </div>
     )
   }
 }
@@ -59,9 +81,6 @@ class Results extends React.Component {
             <h2>{this.props.topic.data.children[1].data.author}</h2>
             <h2>TEXT</h2>
             <h2>{this.props.topic.data.children[1].data.selftext}</h2>
-            {/* <img
-              src={this.props.topic.sprites.front_default}
-              alt={this.props.topic.name}/> */}
           </section>
           :
           undefined
@@ -84,20 +103,25 @@ class App extends React.Component {
     super(props)
     this.state = {
       topic: null,
+      limit: null,
       searchError: null,
     }
     this.searchApi = this.searchApi.bind(this)
     this.updateState = this.updateState.bind(this)
   }
 
-  updateState(name) {
-    this.searchApi(name)
+  updateState(name, limit) {
+    {console.log('CCCCCCCCCC')}
+    {console.log(limit)}
+    this.searchApi(name, limit)
     .then(res => this.setState({topic: res.body, searchError: null}))
     .catch(err => this.setState({topic: null, searchError: err}))
   }
 
-  searchApi(name) {
-    return superagent.get(`${API_URL}/${name}.json?limit=2`)
+  searchApi(name, limit) {
+    {console.log('7777777777')}
+    {console.log(limit)}
+    return superagent.get(`${API_URL}/${name}.json?limit=${limit}`)
   }
 
   render() {
