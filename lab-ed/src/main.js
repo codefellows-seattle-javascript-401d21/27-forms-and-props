@@ -2,6 +2,7 @@ import './styles/main.scss'
 import React from 'react'
 import ReactDom from 'react-dom'
 import superagent from 'superagent'
+import cowsay from 'cowsay-browser'
 
 const API_URL = 'http://www.reddit.com/r'
 
@@ -32,6 +33,8 @@ class SearchForm extends React.Component {
   render() {
     return (
      <div>
+       <h1>subreddits</h1>
+       <img src="https://www.redditstatic.com/snoo-upside-down.png" alt="Lamp"/>
       <form
         className="search-form"
         onSubmit={this.handleSubmit}>
@@ -70,9 +73,8 @@ class Results extends React.Component {
       <div className="results">
         {this.props.topic ?
           <section className="topic-data">
-            <h2>TITLE</h2>
             <ul>
-            {(this.props.topic.data.children.map(ele => <li><a href={ele.data.url}>{ele.data.title}</a><p></p>{ele.data.ups}</li>))}
+            {(this.props.topic.data.children.map(ele => <li ><h3>Topic Title</h3><a href={ele.data.url}>{ele.data.title}</a><p></p>ups => {ele.data.ups}</li>))}
             </ul>
           </section>
           :
@@ -80,8 +82,8 @@ class Results extends React.Component {
         }
 
         {this.props.error ?
-          <section className="topic-error">
-            <h2>Invalid search.</h2>
+          <section className="search-error">
+          <pre>{cowsay.say({ text: "Invalid search", f: 'turtle' })}</pre>
           </section>
           :
           undefined
