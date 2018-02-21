@@ -1,4 +1,4 @@
-// import './styles/main.scss'
+import './styles/main.scss'
 
 import React from 'react'
 import ReactDom from 'react-dom'
@@ -13,32 +13,22 @@ class SearchForm extends React.Component {
       count: 0,
       val: '',
     }
-    this.handleNumber = this.handleNumber.bind(this)
-    this.handleText = this.handleText.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleCount = this.handleCount.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleText(e) {
+  handleChange(e) {
     this.setState({val: e.target.value})
   }
 
-  handleNumber(e) {
+  handleCount(e) {
     this.setState({val: e.target.value})
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    superagent.get(`${API_URL}${this.state.topic}.json?limit=${this.state.count}`)
-    .then(res => {
-      this.setState({
-        topics: res.body.data.children
-      })
-    })
-    .catch(err => {
-      this.setState({
-        hasError: true
-      })
-    })
+    this.props.update_state(this.state.val, this.state.count)
   }
 
   render() {
@@ -49,17 +39,19 @@ class SearchForm extends React.Component {
 
         <input
           type="text"
-          name="text"
-          onChange={this.handleText}
+          name="topics-name"
+          value={this.state.val}
+          onChange={this.handleChange}
           placeholder="text"
         />
 
         <input
           type="number"
-          name="number"
-          min='0'
-          max='100'
-          onChange={this.handleNumber}
+          name="limit"
+          min="0"
+          max="100"
+          value={this.state.count}
+          onChange={this.handleCount}
           placeholder="number"
         />
 
@@ -78,18 +70,32 @@ class Result extends React.Component {
 
   render() {
     return (
-      <ul>
-        {this.props.topics.map((item, i) => {
-          return (
-            <li>
-              <a href={item.data.url}>
-              <h3>{item.data.title}</h3>
-              <p>{item.data.ups}</p>
-              </a>
-             </li>
-          )
-        })}
-      </ul>
+      <div className="results">
+        {this.props.topics ?
+          <ul>
+            {this.props.topics.map((item, i) => {
+              return (
+                <li key={i}>
+                  <a href={item.data.url}>
+                    <p>&#9650; {item.data.ups}</p>
+                    <h2>{item.data.title}</h2>
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+          :
+          undefined
+        }
+
+        {this.props.error ?
+          <section className="topics-error">
+            <h2>You broke it.</h2>
+          </section>
+          :
+          undefined
+        }
+      </div>
     )
   }
 }
