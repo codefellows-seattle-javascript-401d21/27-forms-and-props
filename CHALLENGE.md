@@ -1,33 +1,19 @@
-![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) 27: Whiteboard Challenge
+![cf](http://i.imgur.com/7v5ASc8.png) 26: Whiteboard Challenge
 ===
 
 ## Requirements
-<!-- Use a Hash Table to remove duplicates from an array -->
-Given a 2-dimensional array of numbers, rotate the array 90 degrees.
-
-```js
-[
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-]
-
-// rotated 90 degrees
-[
-  [7, 4, 1],
-  [8, 5, 2],
-  [9, 6, 3],
-]
-
-```
+<!-- Write a function that performs depth first traversal using whichever order you prefer on a Binary Tree:
+* print the values of the tree
 
 Write at least four tests for this function
 * your tests should cover basic (*expected*) functionality
-* your tests should consider edge cases for your function (ex: will your function still operate on an array of floating point integers?)
+* your tests should consider edge cases for your function (ex: will your function still operate on an array of floating point integers?) -->
+
+Create a `utils.js` module which exports the following methods: `map()`, `filter()`, and `reduce()`. You will implement these methods from scratch, not utilizing the built-in array methods.
 
 ## Submission Instructions
 
-1. With your assigned partner, pseudocode your solution on the whiteboard. Take a picture of your proposed solution for your repo.
+1. With your assigned partner, pseudocode your solution on the whiteboard. Take a picture of your proposed olution for your repo.
 1. Make a new branch and folder in your whiteboard challenge repository on GitHub. The name of the folder should be the same as the name of the challenge.
 1. This folder should contain:
 	- A file named `solution.js` which contains the JavaScript solution
