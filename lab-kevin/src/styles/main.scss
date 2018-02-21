@@ -36,8 +36,8 @@ main {
     margin: .5em;
     font-size: 1.4em;
     padding: 0.2em 1em;
-    color: #ff4500;
-    background-color: #cfe4f8;
+    color: $text-active-color;
+    background-color: $background-primary-color;
     border: NONE;
     outline: none;
     border-radius: $form-border-radius;
@@ -54,6 +54,7 @@ main {
   }
 
   input {
+    outline: none;
     font-size: 1.5em;
     margin: .5em;
     padding: .25em;   
@@ -65,10 +66,34 @@ main {
 
     input[name="search_limit"]  {
       width: 15vw;
-      max-width: 70px;
+      max-width: 80px;
     }
 }
 
+.search-form.error { 
+  color: $text-active-color;
+}
+
+.search-form.error input{
+  color: $text-active-color;
+}
+
+
 .results { 
   margin-top: 1.5em;
+  width: 85vw;
+  margin-left: 1.5em;
+}
+
+.results-item {
+  font-size: 1.3em;
+  margin-top: 2em;
+  padding-left: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid $form-text-color;
+  border-left: 1px solid $form-text-color;
+
+  h2 {
+    margin-bottom: 1em;
+  }
 }

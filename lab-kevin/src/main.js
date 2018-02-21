@@ -65,11 +65,13 @@ class App extends React.Component{
     }
 
     changeHandler(e){
+      document.getElementsByClassName('search-form')[0].classList.remove('error')
        this.setState({[e.target.name]: e.target.value});
     }
 
     submitHandler(e){
       e.preventDefault()
+      if (!this.state.search_topic) return;
       this.props.set_app_state(this.state)
     }
 
@@ -77,7 +79,8 @@ class App extends React.Component{
       return(
         <form className="search-form" onSubmit={this.submitHandler}>
           <input type="text" 
-            name="search_topic" 
+            name="search_topic"
+            placeholder="Search Topic" 
             value={this.state.search_topic}
             onChange={this.changeHandler}/>
 
@@ -101,8 +104,12 @@ class App extends React.Component{
 
     displayResults(){
       let {topics, search_error} = this.props.get_app_state();
-      if (search_error) console.log('status:', search_error.status);
-      if (search_error) if (search_error.status !== 403) return `Error: ${search_error.message}`;
+      if (search_error) {
+      if (search_error.status !== 403) {
+        document.getElementsByClassName('search-form')[0].classList.add('error')
+         return `Error: ${search_error.message}`;
+        }
+      }
       if (!topics) return 'No Results';
       console.log(topics.data.children)
       return(
