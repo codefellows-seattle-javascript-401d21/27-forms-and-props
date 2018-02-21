@@ -1,34 +1,32 @@
-// import './styles/main.scss'
+import './styles/main.scss'
 
 import React from 'react';
 import ReactDom from 'react-dom';
 import superagent from 'superagent';
 
-const BASE_URL = 'https://www.reddit.com/r';
-
 class SearchForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       val: '',
       limit: 0,
-    }
-    this.handleSubredditChange = this.handleSubredditChange.bind(this)
-    this.handleLimitChange = this.handleLimitChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    };
+    this.handleSubredditChange = this.handleSubredditChange.bind(this);
+    this.handleLimitChange = this.handleLimitChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubredditChange(e) {
     this.setState({val: e.target.value})
   }
   handleLimitChange(e) {
-    this.setState({limit: e.target.limit})
+    this.setState({limit: e.target.value})
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    console.log(this.state.limit);
     this.props.update_state(this.state.val, this.state.limit)
+    console.log(this.state.limit);
   }
 
   render() {
@@ -49,7 +47,7 @@ class SearchForm extends React.Component {
           min="0"
           max="100"
           name="page-limit"
-          limit={this.state.limit}
+          value={this.state.limit}
           onChange={this.handleLimitChange}
           placeholder="topics"/>
 
@@ -70,12 +68,12 @@ class Results extends React.Component {
       <div className="results">
         {this.props.topics ?
           <ul>
-            {this.props.topics.data.children.map((item, i) => {
+            {this.props.topics.map((item, i) => {
               return (
                 <li key={i}>
                   <a href={item.data.url}>
+                    <p>&#9650; {item.data.ups}</p>
                     <h2>{item.data.title}</h2>
-                    <p>{item.data.ups}</p>
                   </a>
                 </li>
               )
@@ -113,12 +111,12 @@ class App extends React.Component {
 
   updateState(subreddit, limit) {
     this.searchApi(subreddit, limit)
-    .then(res => this.setState({topics: res.body, searchError: null}))
+    .then(res => this.setState({topics: res.body.data.children, searchError: null}))
     .catch(err => this.setState({topics: null, searchError: err}))
   }
 
   searchApi(subreddit, limit) {
-    return superagent.get(`${BASE_URL}/${subreddit}.json?limit=${limit}`)
+    return superagent.get(`https://www.reddit.com/r/${subreddit}.json?limit=${limit}`)
   }
 
   render() {
@@ -131,4 +129,4 @@ class App extends React.Component {
   }
 }
 
-ReactDom.render(<App />, document.getElementById('root'))
+ReactDom.render(<App />, document.getElementById('root'));
