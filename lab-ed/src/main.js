@@ -74,7 +74,7 @@ class Results extends React.Component {
         {this.props.topic ?
           <section className="topic-data">
             <ul>
-            {(this.props.topic.data.children.map(ele => <li ><h3>Topic Title</h3><a href={ele.data.url}>{ele.data.title}</a><p></p>ups => {ele.data.ups}</li>))}
+            {(this.props.topic.data.children.map((ele, index) => <li key={index} ><h3>Topic Title</h3><a href={ele.data.url}>{ele.data.title}</a><p></p>ups => {ele.data.ups}</li>))}
             </ul>
           </section>
           :

@@ -1,6 +1,6 @@
 # Lab 27: forms and props
 
-This app uses webpack to compile JS and sass into a bundle and uses babel to transpile JSX and ES6 to ES5 javascript. It uses react and an event listener to render react components.
+This app will serach the subreddit forum by topic. It uses webpack to compile JS and sass into a bundle and uses babel to transpile JSX and ES6 to ES5 javascript. It also uses react and an event listener to render react components.
 
 To install the app clone the git repository
 The dependencies are all dev dependencies:
