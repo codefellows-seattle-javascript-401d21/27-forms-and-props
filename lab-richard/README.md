@@ -4,9 +4,21 @@ author: Richard Montgomery
 
 version: 1.0.0
 
+<hr>
 
+<h2>App Use</h2>
 
+<strong>In the terminal, run:</strong>
 
+<em>npm i
+
+npm run watch</em>
+
+<strong>Then in the browser, run:</strong>
+
+localhost:8080
+
+<hr>
 
 <h2>Lab Assignment</h2>
 cf 27: Forms and Props
