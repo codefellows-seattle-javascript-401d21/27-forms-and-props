@@ -39,7 +39,7 @@ class SearchForm extends React.Component{
   render(){
     return(
       <form
-        className={this.props.appState.searchError ? "search-form reddit-error" : "search-form"}
+        className={this.props.appState.searchError ? 'search-form reddit-error' : 'search-form'}
         onSubmit={this.handleSubmit}
         id="reddit-search-form">
 
@@ -120,9 +120,9 @@ class App extends React.Component{
     this.updateState = this.updateState.bind(this);
   }
 
-    updateState(results, error){
-      this.setState({results_arr: results, searchError: error});
-    }
+  updateState(results, error){
+    this.setState({results_arr: results, searchError: error});
+  }
 
   render(){
     return (

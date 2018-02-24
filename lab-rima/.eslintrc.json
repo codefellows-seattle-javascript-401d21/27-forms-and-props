@@ -12,7 +12,7 @@
     "res": true,
     "next": true
   },
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "sourceType": "module",
@@ -29,6 +29,7 @@
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "comma-dangle": ["error", "always-multiline"],
     "semi": [ "error", "always" ],
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": ["error", "unix"],
+    "react/prop-types": [0]
   }
 }
