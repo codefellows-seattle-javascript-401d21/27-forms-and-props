@@ -7,7 +7,7 @@ import superagent from 'superagent';
 
 const API_URL = 'http://www.reddit.com';
 
-class SearchForm extends React.Component{ // eslint-disable-line no-unused-vars
+class SearchForm extends React.Component{
   constructor(props){
     super(props);
     this.state = {
@@ -30,7 +30,10 @@ class SearchForm extends React.Component{ // eslint-disable-line no-unused-vars
 
   handleSubmit(event){
     event.preventDefault();
-    this.props.update_state(this.state.keyword, this.state.resultLimit);
+
+    return superagent.get(`${API_URL}/r/${this.state.keyword}.json?limit=${this.state.resultLimit}`)
+      .then(res => this.props.update_state(res.body, null))
+      .catch(err => this.props.update_state(null, err));
   }
 
   render(){
@@ -64,7 +67,7 @@ class SearchForm extends React.Component{ // eslint-disable-line no-unused-vars
   }
 }
 
-class Results extends React.Component { // eslint-disable-line no-unused-vars
+class Results extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -111,7 +114,7 @@ class Results extends React.Component { // eslint-disable-line no-unused-vars
   }
 }
 
-class App extends React.Component{ // eslint-disable-line no-unused-vars
+class App extends React.Component{
 
   constructor(props){
     super(props);
@@ -121,22 +124,11 @@ class App extends React.Component{ // eslint-disable-line no-unused-vars
     };
 
     this.updateState = this.updateState.bind(this);
-    this.searchApi = this.searchApi.bind(this);
   }
 
-  updateState(keyword, resultLimit){
-    this.searchApi(keyword, resultLimit)
-      .then(res => {
-        this.setState({results_arr: res.body, searchError: null});
-      })
-      .catch(err => {
-        this.setState({results_arr: null, searchError: err});
-      });
-  }
-
-  searchApi(keyword, resultLimit){
-    return superagent.get(`${API_URL}/r/${keyword}.json?limit=${resultLimit}`);
-  }
+    updateState(results, error){
+      this.setState({results_arr: results, searchError: error});
+    }
 
   render(){
     return (
