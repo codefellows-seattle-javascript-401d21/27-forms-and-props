@@ -1,0 +1,25 @@
+button {
+    background-color: teal;
+    border-radius: 5px;
+    color: white;
+}
+
+form.reddit-error {
+  input.keyword {
+    border-color: red;
+  }
+}
+
+ul {
+  list-style-type: none !important;
+
+  li a h3, p {
+    color: black;
+    text-decoration: none;
+  }
+
+  li h3 {
+    color: black;
+    text-decoration: none;
+  }
+}
