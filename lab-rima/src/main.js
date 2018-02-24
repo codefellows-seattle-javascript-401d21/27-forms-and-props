@@ -39,7 +39,7 @@ class SearchForm extends React.Component{
   render(){
     return(
       <form
-        className="search-form"
+        className={this.props.appState.searchError ? "search-form reddit-error" : "search-form"}
         onSubmit={this.handleSubmit}
         id="reddit-search-form">
 
@@ -74,8 +74,6 @@ class Results extends React.Component {
 
   render() {
     if(this.props.results_arr){
-      let form = document.getElementById('reddit-search-form');
-      form.className = 'search-form';
       var mapping =
         this.props.results_arr.data.children.map(obj => {
           return (
@@ -87,10 +85,6 @@ class Results extends React.Component {
             </li>
           );
         });
-    }
-    else if(this.props.searchError){
-      let form = document.getElementById('reddit-search-form');
-      form.className = 'search-form reddit-error';
     }
     return (
       <div className="results">
@@ -133,11 +127,14 @@ class App extends React.Component{
   render(){
     return (
       <div className="app">
-        <SearchForm update_state={this.updateState}/>
+        <SearchForm appState={this.state} update_state={this.updateState}/>
         <Results results_arr={this.state.results_arr} searchError={this.state.searchError}/>
       </div>
     );
   }
 }
 
-ReactDom.render(<App />, document.getElementById('root'));
+
+const container = document.createElement('div');
+document.body.appendChild(container);
+ReactDom.render(<App />, container);
