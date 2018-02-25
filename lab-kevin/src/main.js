@@ -42,7 +42,7 @@ class App extends React.Component{
         <Header />
         <main>
           <section className="search">
-            <SearchForm set_app_state={this.setAppState}/>
+            <SearchForm set_app_state={this.setAppState} get_app_state={this.getAppState}/>
           </section>
           <section className="results">
             <SearchResults get_app_state={this.getAppState}/>
@@ -65,7 +65,6 @@ class App extends React.Component{
     }
 
     changeHandler(e){
-      document.getElementsByClassName('search-form')[0].classList.remove('error')
        this.setState({[e.target.name]: e.target.value});
     }
 
@@ -77,7 +76,7 @@ class App extends React.Component{
 
     render(){
       return(
-        <form className="search-form" onSubmit={this.submitHandler}>
+        <form className={`search-form${this.props.get_app_state().search_error ? ' error' : ''}`} onSubmit={this.submitHandler}>
           <input type="text" 
             name="search_topic"
             placeholder="Search Topic" 
@@ -104,14 +103,13 @@ class App extends React.Component{
 
     displayResults(){
       let {topics, search_error} = this.props.get_app_state();
+      let errorClass = '';
       if (search_error) {
       if (search_error.status !== 403) {
-        document.getElementsByClassName('search-form')[0].classList.add('error')
          return `Error: ${search_error.message}`;
         }
       }
       if (!topics) return 'No Results';
-      console.log(topics.data.children)
       return(
         <ul className="results-list">
         {topics.data.children.map((topic, i ) => 
@@ -146,6 +144,5 @@ class App extends React.Component{
     }
   }
 
-  
   ReactDOM.render(<App />, root);
 
