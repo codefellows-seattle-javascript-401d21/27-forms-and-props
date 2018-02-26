@@ -1,0 +1,33 @@
+body {
+  background: rgb(113, 160, 95);
+  font-family: serif;
+  letter-spacing: 5px;
+  font-weight: bold;
+  margin: 1%;
+}
+h3 {
+  color: burlywood;
+  text-shadow: black;
+}
+
+input {
+  background-color: beige;
+  border-radius: 4px;
+  width: 15%;
+  padding: 1%;
+  margin: 3%;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+input:focus {
+  background-color: lightslategray;
+  border: 3px solid #555;
+  color: beige
+}
+
+button{
+  padding: 1%;
+  font-weight: bold;
+}
