@@ -4,7 +4,6 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import superagent from 'superagent'
 
-const API_URL = 'https://www.reddit.com/r/'
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class SearchForm extends React.Component {
   }
 
   handleCount(e) {
-    this.setState({val: e.target.value})
+    this.setState({count: e.target.value})
   }
 
   handleSubmit(e) {
@@ -36,26 +35,23 @@ class SearchForm extends React.Component {
       <form
         className="search-form"
         onSubmit={this.handleSubmit}>
-
+        <h3> Lab 27</h3>
         <input
           type="text"
-          name="topics-name"
+          name="name"
           value={this.state.val}
           onChange={this.handleChange}
-          placeholder="text"
-        />
+          placeholder="topic"/>
 
         <input
           type="number"
           name="limit"
-          min="0"
-          max="100"
+
           value={this.state.count}
           onChange={this.handleCount}
-          placeholder="number"
-        />
+          placeholder="number"/>
 
-        <button>Search</button>
+        <button type="submit">Search</button>
       </form>
     )
   }
@@ -89,8 +85,8 @@ class Result extends React.Component {
         }
 
         {this.props.error ?
-          <section className="topics-error">
-            <h2>You broke it.</h2>
+          <section>
+            <h4>Error</h4>
           </section>
           :
           undefined
@@ -115,7 +111,7 @@ class App extends React.Component {
   }
 
   updateState(subreddit, limit) {
-    this.searchApi(name, limit)
+    this.searchApi(subreddit, limit)
     .then(res => this.setState({topics: res.body.data.children, searchError: null}))
     .catch(err => this.setState({topics: null, searchError: err}))
   }
@@ -126,10 +122,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>Lab 27</h2>
+      <div className="application">
         <SearchForm update_state={this.updateState}/>
-        <Results topics={this.state.topics} error={this.state.searchError}/>
+        <Result topics={this.state.topics} error={this.state.searchError}/>
       </div>
     )
   }
